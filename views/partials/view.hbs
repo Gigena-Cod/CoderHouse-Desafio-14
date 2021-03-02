@@ -1,0 +1,88 @@
+<table class="table table-dark overflow-auto">
+            <thead>
+                <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Url</th>
+                </tr>
+            </thead>
+            <tbody id='BodyElements'>                                
+            </tbody>
+ </table>
+ <script src="/socket.io/socket.io.js"></script>
+ <script type="text/javascript">
+    
+    
+    const socket = io()
+
+    const form = document.getElementById('formulario')
+    const tbody = document.getElementById('BodyElements')
+
+    const nombre = document.getElementById('idNombre')
+    const precio = document.getElementById('idPrecio')
+    const url = document.getElementById('idUrl')
+
+    
+    
+    form.addEventListener('submit', (event) =>{
+        event.preventDefault()
+
+        //VERIFICAMOS QUE NO SEA NULO
+        if(nombre.value === '' || precio.value==='' ||url.value===''){
+            alert('Debe completar todos los campos')
+        }
+        else{
+
+        //EMITIMOS EVENTO NEWPRODUCT
+            socket.emit('newProduct',
+            {title:nombre.value,
+            price:precio.value,
+            thumbnail:url.value}) 
+
+        //LIMPÌAMOS LOS CAMPOS
+            nombre.value=''
+            precio.value=''
+            url.value=''
+        }
+
+        
+         
+
+      
+    }) 
+
+        //ESCUCHAMOS EVENTO
+        socket.on('newProduct',(product) =>{
+
+            let tr = document.createElement('tr')
+
+            //ATRIBUTO NOMBRE
+            let tdNombre = document.createElement('td')
+            let DateNombre = document.createTextNode(product.title)
+            tdNombre.appendChild(DateNombre)
+            tr.appendChild(tdNombre)
+
+            //ATRIBUTO PRECIO
+            let tdPrecio = document.createElement('td')
+            let DatePrecio = document.createTextNode(product.price)
+            tdPrecio.appendChild(DatePrecio)
+            tr.appendChild(tdPrecio)
+            
+            //ATRIBUTO URL
+            let tdUrl = document.createElement('td')  
+            let imgUrl = document.createElement('img')  
+            imgUrl.src= product.thumbnail        
+            imgUrl.style.width='40px'
+            imgUrl.style.height='40px'
+            tdUrl.appendChild(imgUrl)
+
+            //AGREGAMOS TODOS LOS ATRIBUTO AL TR
+            tr.appendChild(tdUrl)
+
+            //AGREGAMOS EL TR AL TBODY
+            tbody.appendChild(tr)
+            
+        })
+
+     
+ </script>

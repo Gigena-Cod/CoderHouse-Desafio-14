@@ -1,0 +1,26 @@
+{
+  "name": "desafio14",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon .",
+    "ServerES6toJS5": "node_modules/.bin/babel server.es6.js -o server.js",
+    "ServerTStoJS5": "node_modules/.bin/babel server.ts -o server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/socket.io": "^2.1.13",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.2.0",
+    "moment": "^2.29.1",
+    "nodemon": "^2.0.7",
+    "socket.io": "^3.1.1",
+    "typescript": "^4.2.2"
+  }
+}

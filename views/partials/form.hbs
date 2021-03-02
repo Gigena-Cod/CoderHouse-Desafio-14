@@ -1,0 +1,31 @@
+    <div class=" p-3 col-6 bg-white rounded  center" id="formulario">
+        <br>
+            <h1 class="text-primary">Ingrese producto</h1>
+            <br>
+                <form action="nuevo" method="POST" enctype="application/x-www-form-urlencoded"  class="idForm">    
+                    <div class="form-group">
+                        <label for="idNombre" class="font-weight-bold font-italic">Nombre:</label>
+                        <input type="text" name="titulo" id="idNombre"  class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="idPrecio" class="font-weight-bold font-italic">Precio:</label>
+                        <input type="number" name="precio" id="idPrecio"  class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="idUrl" class="font-weight-bold font-italic"> Foto Url:</label>
+                        <input type="url" name="thumbnail" id="idUrl"  class="form-control">
+                    </div>
+
+                    <button class="btn btn-success">Enviar</button>
+                    <br>                   
+                </form>
+        <hr style="color: #0056b2;" /> 
+        {{>view}}
+
+    </div>  
+    
+
+   
+
+
+

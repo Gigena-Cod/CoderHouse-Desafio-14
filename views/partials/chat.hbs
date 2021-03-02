@@ -1,0 +1,100 @@
+<div class="p-3 container-flud color col-6">
+    <form action="nuevo" method="POST" enctype="application/x-www-form-urlencoded"  id="Chat">
+        
+        <h2 class="text-primary">Centro de mensajes</h2>
+
+        <br>
+
+        <label for="idEmail"  class="font-weight-bold font-italic">Email:</label>
+                        
+        <input type="text"  placeholder="Ingrese su email"id="idAutor">
+        <hr style="color: #0056b2;" /> 
+        <div class=" border size overflow-auto" id='messages'>
+
+        </div>
+
+        <br>
+
+        <input type="text " id='idMessage' placeholder="Ingrese mensaje">
+        <button class="btn btn-success">Enviar</button>
+        
+    </form>
+
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script "text/javascript">
+    //CONSTANTES
+    const chat = document.getElementById('Chat')
+    const autor = document.getElementById('idAutor')
+    const message = document.getElementById('idMessage')
+    const messages = document.getElementById('messages')
+    let ban=true
+
+    //FUNCIONES
+    function loadMessages(data){
+        let p = document.createElement('p')
+
+            let mensaje =data.Mensaje
+            let autor =data.Autor
+            let now =data.now
+
+            //MENSAJE
+            let italicMensaje = document.createElement('i')
+            let msje = document.createTextNode(`${mensaje}`);
+            italicMensaje.style= "color: green;"
+            italicMensaje.appendChild(msje)
+
+            //AUTOR
+            let strongEmail = document.createElement('strong')
+            let aut = document.createTextNode(`${autor}`);
+            strongEmail.style= "color: blue;"
+            strongEmail.appendChild(aut)
+
+            //FECHA
+            let spanNow = document.createElement('span')
+            let dateNow = document.createTextNode(` [${now}]: `);
+            spanNow.appendChild(dateNow)
+            spanNow.style= "color: #67403A;"
+            
+            
+           
+            p.appendChild(strongEmail)
+            p.appendChild(spanNow)
+            p.appendChild(italicMensaje)
+
+            messages.appendChild(p) 
+    }
+    
+        //ESCUCHAMOS EVENTO NEW MESSAGE
+        socket.on('lastMessages',(oldMessages)=>{
+            for(i = 0 ; oldMessages.length > i ; i++)
+            
+                loadMessages(oldMessages[i])
+            
+            
+            
+        })
+
+    chat.addEventListener('submit', (event) =>{
+        
+        //EVITAR RECARGAR LA PAGINA
+        event.preventDefault()
+        
+        //EMITIANDO MENSAJE AL SEVIDOR
+        socket.emit('newMessage',{Autor:autor.value,
+            Mensaje:message.value})       
+        
+        })
+
+       
+
+        //ESCUCHAMOS EVENTO NEW MESSAGE
+        socket.on('newMessage',(data) =>{
+            
+            loadMessages(data)
+        })
+        
+</script>
+
+
+
